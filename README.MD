@@ -35,7 +35,6 @@ The OneDrive Sync Sample for iOS shows how to detect and sync file changes betwe
         
    For more information, see **Using CocoaPods** in [Additional Resources](#AdditionalResources)
   
-3. Open **TBD**
 4. Open **AuthenticationConstants.swift** under **Library/Authentication**. You'll see that the **ClientID**, **RedirectUri**, and **tenant name** values can be added to the top of the file. Supply the necessary values here:
 
         // You will set your application's clientId, redirect URI, and tenant name. 
