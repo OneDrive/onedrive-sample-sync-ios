@@ -36,12 +36,16 @@ The OneDrive Sync Sample for iOS shows how to detect and sync file changes betwe
    For more information, see **Using CocoaPods** in [Additional Resources](#AdditionalResources)
   
 3. Open **TBD**
-4. Open **TBD**. You'll see that the **ClientID** and **RedirectUri** values can be added to the top of the file. Supply the necessary values here:
+4. Open **AuthenticationConstants.swift** under **Library/Authentication**. You'll see that the **ClientID**, **RedirectUri**, ** and **tenant name** values can be added to the top of the file. Supply the necessary values here:
 
-        
+        // You will set your application's clientId, redirect URI, and tenant name. 
+        static let ClientId    = "[ENTER_YOUR_CLIENT_ID]"
+        static let RedirectUri = NSURL(string: "[ENTER_YOUR_REDIRECT_URI]")
+        static let Authority   = "https://login.microsoftonline.com/common"
+        static let ResourceId  = "https://YOUR_TENANT_NAME-my.sharepoint.com/"
 
-5. Run the sample.
-
+5. Open **Info.plist** For the key **OneDrive base API URL** you'll need to supply your tenant name: **https://YOUR_TENANT_NAME-my.sharepoint.com/_api/v2.0**.   
+6. Run the sample.
 
 
 ## Questions and comments
