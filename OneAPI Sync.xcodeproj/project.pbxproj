@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C0DC2228B94E508B8F07B62 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 067C3DADEA95293F84EBED53 /* libPods.a */; };
+		962D1EC81C9888EF002B611F /* folderCreate.json in Resources */ = {isa = PBXBuildFile; fileRef = 962D1EC71C9888EF002B611F /* folderCreate.json */; };
 		9640CFDD1C84DF86009ADA60 /* PersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9640CFDC1C84DF86009ADA60 /* PersistentStore.swift */; };
 		9640CFDF1C84DFD6009ADA60 /* FileRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9640CFDE1C84DFD6009ADA60 /* FileRecord.swift */; };
 		9640CFE21C84FBC7009ADA60 /* OneDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9640CFE11C84FBC7009ADA60 /* OneDriveManager.swift */; };
@@ -27,6 +28,8 @@
 		067C3DADEA95293F84EBED53 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D4B2581E25EA5600F4BD6E6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		93491995606292523FD3BBA6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		962D1EC71C9888EF002B611F /* folderCreate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = folderCreate.json; sourceTree = "<group>"; };
+		962D1EC91C98A24B002B611F /* OneAPI Sync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "OneAPI Sync.entitlements"; sourceTree = "<group>"; };
 		9640CFDC1C84DF86009ADA60 /* PersistentStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
 		9640CFDE1C84DFD6009ADA60 /* FileRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileRecord.swift; sourceTree = "<group>"; };
 		9640CFE11C84FBC7009ADA60 /* OneDriveManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneDriveManager.swift; sourceTree = "<group>"; };
@@ -94,6 +97,7 @@
 		966ED6CD1C750161005658BE /* OneAPI Sync */ = {
 			isa = PBXGroup;
 			children = (
+				962D1EC91C98A24B002B611F /* OneAPI Sync.entitlements */,
 				96B58B111C87B9860058588E /* Resourses */,
 				96B58B101C87B9770058588E /* Views */,
 				96B58B0F1C87B95D0058588E /* Controllers */,
@@ -165,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				966ED6D51C750161005658BE /* Assets.xcassets */,
+				962D1EC71C9888EF002B611F /* folderCreate.json */,
 			);
 			name = Resourses;
 			sourceTree = "<group>";
@@ -213,6 +218,12 @@
 				TargetAttributes = {
 					966ED6CA1C750161005658BE = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = UBF8T346G9;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -240,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				966ED6D91C750161005658BE /* LaunchScreen.storyboard in Resources */,
+				962D1EC81C9888EF002B611F /* folderCreate.json in Resources */,
 				966ED6D61C750161005658BE /* Assets.xcassets in Resources */,
 				966ED6D41C750161005658BE /* Main.storyboard in Resources */,
 			);
@@ -424,10 +436,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "OneAPI Sync/OneAPI Sync.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "OneAPI Sync/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.OneAPI-Sync";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OneAPI Sync/OneAPI Sync-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -439,10 +455,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "OneAPI Sync/OneAPI Sync.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "OneAPI Sync/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.OneAPI-Sync";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OneAPI Sync/OneAPI Sync-Bridging-Header.h";
 			};
 			name = Release;

@@ -33,6 +33,7 @@ class AuthenticationManager {
     // MARK: Initializer
     init?() {
         var error: ADAuthenticationError?
+//        ADAuthenticationSettings.sharedInstance().sharedCacheKeychainGroup = nil
         guard let context = ADAuthenticationContext(authority: AuthenticationConstants.Authority, error: &error) else {
             print(error!.localizedDescription)
             self.context = nil

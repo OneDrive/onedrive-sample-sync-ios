@@ -4,3 +4,4 @@
 
 
 #import <ADAuthenticationContext.h>
+#import <ADAuthenticationSettings.h>

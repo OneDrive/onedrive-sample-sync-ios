@@ -56,8 +56,6 @@ class PersistentStore {
         if let nonNilItems = items {
             for item:DeltaItem in nonNilItems {
                 if item.parentId == folderId {
-                    print("\(item.fileId)   \(item.fileName)  isFolder:\(item.isFolder)    isDelete:\(item.isDelete)")
-                    
                     if item.isDelete {
                         tryDeleteFile(item.fileId)
                     }

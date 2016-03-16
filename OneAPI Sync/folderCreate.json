@@ -1,0 +1,5 @@
+{
+    "name": "FolderAB",
+    "folder": { },
+    "@name.conflictBehavior": "fail"
+}

@@ -41,7 +41,6 @@ class OneDriveManager : NSObject {
         let request = NSMutableURLRequest(URL: NSURL(string: "\(baseURL)/me/drive/special/approot:/")!)
         
         request.HTTPMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json, text/plain, */*", forHTTPHeaderField: "Accept")
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
@@ -119,6 +118,43 @@ class OneDriveManager : NSObject {
     }
 
     
+    func createFolder(folderName:String, folderId:String, completion: (OneDriveManagerResult) -> Void) {
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: "\(baseURL)/me/drive/special/approot:/\(folderName)")!)
+        request.HTTPMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        
+        let emptyParams = Dictionary<String, String>()
+        let params = ["name":folderName,
+                      "folder":emptyParams,
+                      "@name.conflictBehavior":"rename"]
+        
+        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: NSJSONWritingOptions())
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: {
+            (data, response, error) -> Void in
+            
+            
+            if let someError = error {
+                completion(OneDriveManagerResult.Failure(OneDriveAPIError.GeneralError(someError)))
+                return
+            }
+            
+            let statusCode = (response as! NSHTTPURLResponse).statusCode
+            
+            switch(statusCode) {
+            case 200, 201:
+                completion(OneDriveManagerResult.Success)
+            default:
+                completion(OneDriveManagerResult.Failure(OneDriveAPIError.UnspecifiedError(response)))
+            }
+        })
+        task.resume()
+    }
+
+    
+    
         
     func syncUsingViewDelta(syncToken syncToken:String?,
         completion: (OneDriveManagerResult, newSyncToken: String?, deltaArray: [DeltaItem]?) -> Void) {
@@ -175,7 +211,9 @@ class OneDriveManager : NSObject {
                             var lastModified: String
                             
                             fileId = item["id"] as! String
-                            lastModified = item["lastModifiedDateTime"] as! String
+
+                            let lastModifiedRaw = item["lastModifiedDateTime"] as! String
+                            lastModified = self.localTimeStringFromGMTTime(lastModifiedRaw)
                             
                             fileName = item["name"] as? String
 
@@ -222,4 +260,31 @@ class OneDriveManager : NSObject {
         
         task.resume()
     }
+    
+    func localTimeStringFromGMTTime(gmtTime: String) -> String {
+        
+        let locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        let dateFormatterFrom = NSDateFormatter()
+        dateFormatterFrom.locale = locale
+        dateFormatterFrom.timeZone = NSTimeZone(abbreviation: "GMT")
+        dateFormatterFrom.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
+        
+        let lastModifiedDate = dateFormatterFrom.dateFromString(gmtTime)
+        
+        let dateFormatterTo = NSDateFormatter()
+        dateFormatterTo.locale = locale
+        dateFormatterTo.timeZone = NSTimeZone.localTimeZone()
+        dateFormatterTo.dateFormat = "yyyy'-'MM'-'dd' 'HH':'mm':'ss"
+        
+        return dateFormatterTo.stringFromDate(lastModifiedDate!)
+    }
+    
 }
+
+
+
+
+
+
+
+
