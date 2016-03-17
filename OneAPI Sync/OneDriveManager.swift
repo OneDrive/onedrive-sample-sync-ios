@@ -153,112 +153,122 @@ class OneDriveManager : NSObject {
         task.resume()
     }
 
-    
-    
-        
     func syncUsingViewDelta(syncToken syncToken:String?,
+        completion: (OneDriveManagerResult, newSyncToken: String?, deltaArray: [DeltaItem]?) -> Void) {
+            syncUsingViewDelta(syncToken: syncToken, nextLink: nil, currentDeltaArray: [DeltaItem](), completion: completion)
+    }
+    
+    func syncUsingViewDelta(syncToken syncToken:String?, nextLink: String?, var currentDeltaArray: [DeltaItem]?,
         completion: (OneDriveManagerResult, newSyncToken: String?, deltaArray: [DeltaItem]?) -> Void) {
 
             let request: NSMutableURLRequest
             
-            
-            if let sToken = syncToken {
-                request = NSMutableURLRequest(URL: NSURL(string: "\(baseURL)/me/drive/root/view.delta?token=\(sToken)")!)
+            if let nLink = nextLink {
+                request = NSMutableURLRequest(URL: NSURL(string: "\(nLink)")!)
             }
             else {
-                request = NSMutableURLRequest(URL: NSURL(string: "\(baseURL)/me/drive/root/view.delta")!)
-            }
-            
-            
-        request.HTTPMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-        
-        
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: {
-            (data, response, error) -> Void in
-            
-            if let someError = error {
-                print("error \(error?.localizedDescription)")
-                completion(OneDriveManagerResult.Failure(OneDriveAPIError.GeneralError(someError)),newSyncToken: nil, deltaArray: nil)
-                return
-            }
-            
-            let statusCode = (response as! NSHTTPURLResponse).statusCode
-            print("status code = \(statusCode)")
-            
-            switch(statusCode) {
-            case 200:
-                do{
-                    let json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions())
-                    
-                    guard let deltaToken = json["@delta.token"] as? String else {
-                        completion(OneDriveManagerResult.Failure(OneDriveAPIError.UnspecifiedError(response)), newSyncToken: nil, deltaArray: nil)
-                        return
-                    }
-                    
-                    print("delta token = \(deltaToken)")
-                    
-                    var deltaItems = [DeltaItem]()
-                    
-                    if let items = json["value"] as? [[String: AnyObject]] {
-                        for item in items {
-                            var fileId: String
-                            var fileName: String?
-                            var isFolder: Bool
-                            var isDelete: Bool
-                            var parentId: String?
-                            var lastModified: String
-                            
-                            fileId = item["id"] as! String
-
-                            let lastModifiedRaw = item["lastModifiedDateTime"] as! String
-                            lastModified = self.localTimeStringFromGMTTime(lastModifiedRaw)
-                            
-                            fileName = item["name"] as? String
-
-                            
-                            if let _ = item["folder"] {
-                                isFolder = true
-                            }
-                            else {
-                                isFolder = false
-                            }
-                            
-                            if let _ = item["deleted"] {
-                                isDelete = true
-                            }
-                            else {
-                                isDelete = false
-                            }
-                            
-                            if let parentReference = item["parentReference"] as? [String: AnyObject] {
-                                parentId = parentReference["id"] as? String
-                            }
-                            
-                            let deltaItem = DeltaItem(
-                                fileId: fileId,
-                                fileName: fileName,
-                                parentId: parentId,
-                                isFolder: isFolder,
-                                isDelete: isDelete,
-                                lastModified: lastModified)
-                            
-                            deltaItems.append(deltaItem)
-                        }
-                    }
-                    completion(OneDriveManagerResult.Success, newSyncToken: deltaToken, deltaArray: deltaItems)
+                if let sToken = syncToken {
+                    request = NSMutableURLRequest(URL: NSURL(string: "\(baseURL)/me/drive/root/view.delta?token=\(sToken)")!)
                 }
-                catch{
-                    completion(OneDriveManagerResult.Failure(OneDriveAPIError.JSONParseError), newSyncToken: nil, deltaArray: nil)
+                else {
+                    request = NSMutableURLRequest(URL: NSURL(string: "\(baseURL)/me/drive/root/view.delta")!)
+                }
+            }
+            
+            print("\(request)")
+            
+            request.HTTPMethod = "GET"
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        
+            
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: {
+                (data, response, error) -> Void in
+                
+                if let someError = error {
+                    print("error \(error?.localizedDescription)")
+                    completion(OneDriveManagerResult.Failure(OneDriveAPIError.GeneralError(someError)),newSyncToken: nil, deltaArray: nil)
+                    return
                 }
                 
-            default:
-                completion(OneDriveManagerResult.Failure(OneDriveAPIError.UnspecifiedError(response)), newSyncToken: nil, deltaArray: nil)
-            }
-        })
-        
-        task.resume()
+                let statusCode = (response as! NSHTTPURLResponse).statusCode
+                print("status code = \(statusCode)\n\n")
+                
+                switch(statusCode) {
+                case 200:
+                    do{
+                        let json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions())
+                        
+                        guard let deltaToken = json["@delta.token"] as? String else {
+                            completion(OneDriveManagerResult.Failure(OneDriveAPIError.UnspecifiedError(response)), newSyncToken: nil, deltaArray: nil)
+                            return
+                        }
+                        
+                        print("delta token = \(deltaToken)")
+                        
+                        if let items = json["value"] as? [[String: AnyObject]] {
+                            for item in items {
+                                let fileId: String = item["id"] as! String
+                                let lastModifiedRaw = item["lastModifiedDateTime"] as! String
+                                let lastModified = self.localTimeStringFromGMTTime(lastModifiedRaw)
+                                
+                                let fileName: String? = item["name"] as? String
+                                var isFolder: Bool
+                                var isDelete: Bool
+                                var parentId: String?
+                                
+                                if let _ = item["folder"] {
+                                    isFolder = true
+                                }
+                                else {
+                                    isFolder = false
+                                }
+                                
+                                if let _ = item["deleted"] {
+                                    isDelete = true
+                                }
+                                else {
+                                    isDelete = false
+                                }
+                                
+                                if let parentReference = item["parentReference"] as? [String: AnyObject] {
+                                    parentId = parentReference["id"] as? String!
+                                }
+                                
+                                let deltaItem = DeltaItem(
+                                    fileId: fileId,
+                                    fileName: fileName,
+                                    parentId: parentId,
+                                    isFolder: isFolder,
+                                    isDelete: isDelete,
+                                    lastModified: lastModified)
+
+                                currentDeltaArray?.append(deltaItem)
+                            }
+                        }
+                        
+                        if let nextLink = json["@odata.nextLink"] as? String {
+                            self.syncUsingViewDelta(syncToken: syncToken, nextLink: nextLink, currentDeltaArray: currentDeltaArray, completion: completion)
+                        }
+                        else {
+                            completion(OneDriveManagerResult.Success, newSyncToken: deltaToken, deltaArray: currentDeltaArray)
+                        }
+                        
+                        
+                        
+                        
+                        
+                    }
+                    catch{
+                        completion(OneDriveManagerResult.Failure(OneDriveAPIError.JSONParseError), newSyncToken: nil, deltaArray: nil)
+                    }
+                    
+                default:
+                    completion(OneDriveManagerResult.Failure(OneDriveAPIError.UnspecifiedError(response)), newSyncToken: nil, deltaArray: nil)
+                }
+            })
+            
+            task.resume()
     }
     
     func localTimeStringFromGMTTime(gmtTime: String) -> String {

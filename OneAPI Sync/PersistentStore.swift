@@ -70,7 +70,6 @@ class PersistentStore {
     func tryDeleteFile(fileId: String) {
         for var index = fileRecords.count - 1; index >= 0 ; index-- {
             if fileRecords[index].fileId == fileId {
-                print("==> delete \(fileRecords[index].fileName)")
                 fileRecords.removeAtIndex(index)
             }
         }
@@ -83,7 +82,6 @@ class PersistentStore {
         
         for fileRecord: FileRecord in fileRecords {
             if fileRecord.fileId == fileId {
-                print("file updated  \(fileRecord.fileName)  \(fileName)")
                 updated = true
                 fileRecord.fileName = fileName
                 fileRecord.isNew = true
@@ -92,7 +90,6 @@ class PersistentStore {
         }
         
         if updated == false {
-            print("new file  \(fileName)   isFolder:\(isFolder)")
             let newRecord = FileRecord(fileId: fileId, fileName: fileName, dateModified: lastModified, isNew: true, isFolder: isFolder)
             fileRecords.append(newRecord)
         }
