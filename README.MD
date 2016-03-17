@@ -18,7 +18,7 @@ The OneDrive Sync Sample for iOS shows how to detect and sync file changes betwe
 
      > Important: You will also need to ensure your Azure subscription is bound to your Office 365 tenant. To do this, see the Active Directory team's blog post, [Creating and Managing Multiple Windows Azure Active Directories](http://blogs.technet.com/b/ad/archive/2013/11/08/creating-and-managing-multiple-windows-azure-active-directories.aspx). The section **Adding a new directory** will explain how to do this. You can also see [Set up your Office 365 development environment](https://msdn.microsoft.com/office/office365/howto/setup-development-environment#bk_CreateAzureSubscription) and the section **Associate your Office 365 account with Azure AD to create and manage apps** for more information.
       
-* A client id and redirect uri values of an application registered in Azure. This sample application must be granted the **TBD** permission for **TBD**. To create the registration, see **Register your native app with the Azure Management Portal** in [Manually register your app with Azure AD so it can access Office 365 APIs](https://msdn.microsoft.com/en-us/office/office365/howto/add-common-consent-manually) and [grant proper permissions](https://github.com/OfficeDev/O365-iOS-Microsoft-Graph-Connect/wiki/Grant-permissions-to-the-Connect-application-in-Azure) in the sample wiki to apply the proper permissions to it.
+* A client id and redirect uri values of an application registered in Azure. This sample application must be granted the **Read and write user files** permission for **Office 365 SharePoint Online**. To create the registration, see **Register your native app with the Azure Management Portal** in [Manually register your app with Azure AD so it can access Office 365 APIs](https://msdn.microsoft.com/en-us/office/office365/howto/add-common-consent-manually) and [grant proper permissions](https://github.com/OneDrive/onedrive-sample-sync-ios/wiki/Grant-permissions-to-the-application-in-Azure) in the sample wiki to apply the proper permissions to it.
 
 
        
@@ -49,7 +49,7 @@ The OneDrive Sync Sample for iOS shows how to detect and sync file changes betwe
 
 ## Questions and comments
 
-We'd love to get your feedback about the Office 365 iOS Microsoft Graph Connect project. You can send your questions and suggestions to us in the [Issues](https://github.com/OneDrive/onedrive-sample-sync-ios/issues) section of this repository.
+We'd love to get your feedback about the OneDrive Sync Sample for iOS project. You can send your questions and suggestions to us in the [Issues](https://github.com/OneDrive/onedrive-sample-sync-ios/issues) section of this repository.
 
 Questions about Office 365 development in general should be posted to [Stack Overflow](http://stackoverflow.com/questions/tagged/Office365+API). Make sure that your questions or comments are tagged with [Office365] and [OneDrive].
 
