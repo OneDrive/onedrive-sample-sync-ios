@@ -1,6 +1,10 @@
 # OneDrive Sync Sample for iOS
 
-The OneDrive Sync Sample for iOS shows how to detect and sync file changes between a client app and the Microsoft OneDrive service in Office 365 for both online and offline scenarios. It demonstrates the following:
+The OneDrive Sync Sample for iOS shows how to detect and sync file changes between a client app and the Microsoft OneDrive service in Office 365 for both online and offline scenarios.
+
+![Files]()
+
+It demonstrates the following:
 
 - Ability to sync between a client app files list and a user’s OneDrive for Business account by using the OneDrive **view.delta** API. The app will detect any modifications, including added, modified, and deleted files and folders. Any changes will be reported to the app UI.  For example, if someone deletes a file from the user’s drive on a laptop elsewhere, the client app will reflect the changes upon syncing.
 - Allows the user to create an app folder and text file by using the OneDrive API for an organizational account in Office 365.
@@ -45,6 +49,13 @@ The OneDrive Sync Sample for iOS shows how to detect and sync file changes betwe
 
 5. Open **Info.plist** For the key **OneDrive base API URL** you'll need to supply your tenant name: 	**https://YOUR_TENANT_NAME-my.sharepoint.com/_api/v2.0**.   
 6. Run the sample.
+
+After authenticating you'll reach a page that lists the names of files and folders stored in the app. 
+
+![Files]()
+
+This list can be synced with the contents within the user's OneDrive for Business account by tapping the blue circular arrow icon in the bottom app bar. A blue checkmark will appear next to an item that is new or has been modified (like a file name change or the addition of a new file/folder).  The red circular arrow will delete all view.delta sync tokens.
+
 
 
 ## Questions and comments
