@@ -52,9 +52,7 @@ It demonstrates the following:
 
 After authenticating you'll reach a page that lists the names of files and folders stored in the app. 
 
-![Files]()
-
-This list can be synced with the contents within the user's OneDrive for Business account by tapping the blue circular arrow icon in the bottom app bar. A blue checkmark will appear next to an item that is new or has been modified (like a file name change or the addition of a new file/folder).  The red circular arrow will delete all view.delta sync tokens.
+This list can be synced with the contents within the user's OneDrive for Business account by tapping the blue circular arrow icon in the bottom app bar. A blue checkmark will appear next to an item that is new or has been modified (like a file name change or the addition of a new file/folder). The red circular arrow will delete all view.delta sync tokens.
 
 
 
