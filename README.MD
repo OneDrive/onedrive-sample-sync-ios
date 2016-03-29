@@ -56,6 +56,32 @@ This list can be synced with the contents within the user's OneDrive for Busines
 
 
 
+## Handling View.delta
+The api **view.delta** is handled in OneDriverManager.swift under syncUsingViewDelta method. It accepts a sync token and the result is handled asynchronously by the completion block.
+      
+```swift
+func syncUsingViewDelta(syncToken syncToken:String?,
+        completion: (OneDriveManagerResult, newSyncToken: String?, deltaArray: [DeltaItem]?) -> Void) 
+```        
+      
+        
+If the number of items returned in the response is truncated; This happens if the number of items is too large or the 'top' query is used to purposely limit the number of items. In this case, paging can be used to fetch all items. This sample uses recursion to achieve paging. Basically, if view.delta's response contains **@odata.nextLink**, it calls the method recursively and appends the result to the delta item array.
+
+```swift
+func syncUsingViewDelta(syncToken syncToken:String?, nextLink: String?, var currentDeltaArray: [DeltaItem]?,
+        completion: (OneDriveManagerResult, newSyncToken: String?, deltaArray: [DeltaItem]?) -> Void)
+        
+        ...
+if let nextLink = json["@odata.nextLink"] as? String {
+                            self.syncUsingViewDelta(syncToken: syncToken, nextLink: nextLink, currentDeltaArray: currentDeltaArray, completion: completion)
+                        }
+                        else {
+                            completion(OneDriveManagerResult.Success, newSyncToken: deltaToken, deltaArray: currentDeltaArray)
+                        }
+
+        
+```
+
 ## Questions and comments
 
 We'd love to get your feedback about the OneDrive Sync Sample for iOS project. You can send your questions and suggestions to us in the [Issues](https://github.com/OneDrive/onedrive-sample-sync-ios/issues) section of this repository.
