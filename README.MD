@@ -10,8 +10,8 @@ It demonstrates the following:
 - Allows the user to create an app folder and text file by using the OneDrive API for an organizational account in Office 365.
 
 
-> Note: This app is written in Swift and doesn't support Microsoft account authentication.
- 
+> Note: This app is written in Swift and doesn't support Microsoft account authentication. For more information on the view.delta API 
+ see [View changes for a OneDrive Item and its children](https://dev.onedrive.com/items/view_delta.htm).
 ## Prerequisites
 * [Xcode](https://developer.apple.com/xcode/downloads/) from Apple
 * Installation of [CocoaPods](https://guides.cocoapods.org/using/using-cocoapods.html) as a dependency manager.
@@ -52,7 +52,8 @@ It demonstrates the following:
 
 After authenticating you'll reach a page that lists the names of files and folders stored in the app. 
 
-This list can be synced with the contents within the user's OneDrive for Business account by tapping the blue circular arrow icon in the bottom app bar. A blue checkmark will appear next to an item that is new or has been modified (like a file name change or the addition of a new file/folder). The red circular arrow will delete all view.delta sync tokens.
+This list can be synced with the contents within the user's OneDrive for Business account by tapping the blue circular arrow icon in the bottom app bar. A blue checkmark will appear next to an item that is new or has been modified (like a file name change or the addition of a new file/folder). The red circular arrow will delete all view.delta sync tokens. Again, for more information on the view.delta API 
+ see [View changes for a OneDrive Item and its children](https://dev.onedrive.com/items/view_delta.htm).
 
 
 
@@ -65,7 +66,7 @@ func syncUsingViewDelta(syncToken syncToken:String?,
 ```        
       
         
-If the number of items returned in the response is truncated; This happens if the number of items is too large or the 'top' query is used to purposely limit the number of items. In this case, paging can be used to fetch all items. This sample uses recursion to achieve paging. Basically, if view.delta's response contains **@odata.nextLink**, it calls the method recursively and appends the result to the delta item array.
+If the number of items returned in the response is truncated: This happens if the number of items is too large or the 'top' query is used to purposely limit the number of items. In this case, paging can be used to fetch all items. This sample uses recursion to achieve paging. Basically, if view.delta's response contains **@odata.nextLink**, it calls the method recursively and appends the result to the delta item array.
 
 ```swift
 func syncUsingViewDelta(syncToken syncToken:String?, nextLink: String?, var currentDeltaArray: [DeltaItem]?,
@@ -95,6 +96,7 @@ You will need to sign a [Contributor License Agreement](https://cla.microsoft.co
 ## Additional resources
 
 * [Office Dev Center](http://dev.office.com/)
+* [View changes for a OneDrive Item and its children](https://dev.onedrive.com/items/view_delta.htm).
 * [Microsoft Graph overview page](https://graph.microsoft.io)
 * [Using CocoaPods](https://guides.cocoapods.org/using/using-cocoapods.html)
 
