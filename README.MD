@@ -2,7 +2,7 @@
 
 The OneDrive Sync Sample for iOS shows how to detect and sync file changes between a client app and the Microsoft OneDrive service in Office 365 for both online and offline scenarios.
 
-![Files]()
+![Files](https://github.com/OneDrive/onedrive-sample-sync-ios/blob/master/Images/FilesSync.png)
 
 It demonstrates the following:
 
