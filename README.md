@@ -1,3 +1,18 @@
+---
+page_type: sample
+products:
+- office-onedrive
+- office-365
+languages:
+- swift
+extensions:
+  contentType: samples
+  technologies:
+  - Azure AD
+  createdDate: 3/9/2016 11:02:34 AM
+  scenarios:
+  - Mobile
+---
 # OneDrive Sync Sample for iOS
 
 The OneDrive Sync Sample for iOS shows how to detect and sync file changes between a client app and the Microsoft OneDrive service in Office 365 for both online and offline scenarios.
